@@ -13,8 +13,10 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 bat """
-                python -m venv venv
+                set PYTHON=C:\\Users\\dona_\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\python.exe
+                "%PYTHON%" -m venv venv
                 call venv\\Scripts\\activate
+                "%PYTHON%" -m pip install --upgrade pip
                 pip install -r requirements.txt
                 """
             }
