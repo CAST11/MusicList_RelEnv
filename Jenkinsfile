@@ -5,15 +5,16 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'master'
+                git branch: 'main',
+                    url: 'https://github.com/CAST11/MusicList_RelEnv.git'
             }
         }
 
         stage('Install dependencies') {
             steps {
-                sh """
+                bat """
                 python -m venv venv
-                source venv/bin/activate
+                call venv\\Scripts\\activate
                 pip install -r requirements.txt
                 """
             }
@@ -21,8 +22,8 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh """
-                source venv/bin/activate
+                bat """
+                call venv\\Scripts\\activate
                 pytest --junitxml=test-results.xml
                 """
             }
@@ -47,5 +48,3 @@ pipeline {
         }
     }
 }
-
-
