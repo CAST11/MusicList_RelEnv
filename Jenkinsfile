@@ -13,9 +13,10 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 bat """
-                python -m venv venv
+                set PYTHON=C:\\msys64\\ucrt64\\bin\\python.exe
+                "%PYTHON%" -m venv venv
                 call venv\\Scripts\\activate
-                python -m pip install --upgrade pip
+                "%PYTHON%" -m pip install --upgrade pip
                 pip install -r requirements.txt
                 """
             }
