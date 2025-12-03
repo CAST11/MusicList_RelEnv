@@ -2,51 +2,54 @@ pipeline {
     agent any
 
     stages {
-
         stage('Checkout') {
             steps {
-                git branch: 'master',
-                    url: 'https://github.com/CAST11/MusicList_RelEnv.git'
+                git branch: 'master', url: 'https://github.com/CAST11/MusicList_RelEnv.git'
             }
         }
 
         stage('Install dependencies') {
             steps {
-                bat """
-                set PYTHON=C:\\msys64\\ucrt64\\bin\\python.exe
-                "%PYTHON%" -m venv venv
-                call venv\\Scripts\\activate
-                "%PYTHON%" -m pip install --upgrade pip
-                pip install -r requirements.txt
-                """
+                sh '''
+                    echo "Python version:"
+                    python3 --version
+
+                    echo "Creating virtual env"
+                    python3 -m venv venv
+
+                    echo "Activating virtualenv"
+                    . venv/bin/activate
+
+                    echo "Upgrading pip"
+                    pip install --upgrade pip
+
+                    echo "Installing requirements"
+                    pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat """
-                call venv\\Scripts\\activate
-                pytest --junitxml=test-results.xml
-                """
+                sh '''
+                    . venv/bin/activate
+                    pytest --junitxml=results.xml || true
+                '''
             }
-        }
-
-        stage('Publish Results') {
-            steps {
-                junit 'test-results.xml'
+            post {
+                always {
+                    junit 'results.xml'
+                }
             }
         }
     }
 
     post {
         always {
-            echo "Pipeline finished"
-        }
-        success {
-            echo "Tests passed!"
+            echo 'Pipeline finished'
         }
         failure {
-            echo "Tests failed!"
+            echo 'Tests failed!'
         }
     }
 }
