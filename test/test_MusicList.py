@@ -80,7 +80,7 @@ class TestAudioFilesList:
         # 4. Check parsed components
         assert manager.library_path_name == TEST_LIBRARY_FILE
         assert manager.library_filename == "tst_library.txt"
-        assert manager.library_path == r"C:\Users\dona_\Documents\Python\Musicoterapia\MT_Testingfake"
+        assert manager.library_path == os.path.dirname(TEST_LIBRARY_FILE)
 
         # 5. Check label updated
         manager.label_file_explorer.configure.assert_called_once_with(text=f"File Opened: {TEST_LIBRARY_FILE}")
