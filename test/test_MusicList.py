@@ -33,7 +33,9 @@ class TestAudioFilesList:
         manager = audio_manager
 
         # 1. Define the test directory path and contents you want to simulate
-        test_music_folder = r"C:\Users\dona_\Documents\Python\Musicoterapia\MT_Testing"
+        test_music_folder = os.path.join("home", "jenkins", "testmusic")  # Linux
+        if os.name == "nt":
+            test_music_folder = r"C:\Users\dona_\Documents\Python\Musicoterapia\MT_Testing"
 
         # 2. Patch the askdirectory to return the test path
         # Patch 'tkinter.filediaglog.askdirectory' as it's used in MysicList.py
