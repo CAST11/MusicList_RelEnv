@@ -7,7 +7,13 @@ from docx import Document
 import os
 from unittest.mock import call
 
-TEST_LIBRARY_FILE = r"C:\Users\dona_\Documents\Python\Musicoterapia\MT_Testingfake\tst_library.txt"
+BASE_DIR = os.path.join("home", "jenkins", "testdata")  # Linux
+if os.name == "nt":
+    BASE_DIR = r"C:\Users\dona_\Documents\Python\Musicoterapia\MT_Testingfake"
+
+TEST_LIBRARY_FILE = os.path.join(BASE_DIR, "tst_library.txt")
+
+#TEST_LIBRARY_FILE = r"C:\Users\dona_\Documents\Python\Musicoterapia\MT_Testingfake\tst_library.txt"
 
 @pytest.fixture
 def audio_manager():
